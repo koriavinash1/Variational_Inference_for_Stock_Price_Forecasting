@@ -24,12 +24,14 @@ from config import *
 
 class DatasetGenerator(object):
     """docstring for DatasetGenerator"""
-    def __init__(self, symbol = symbol, mode = 'train'):
+    def __init__(self, symbol = symbol, mode = 'train', save = True):
         super(DatasetGenerator, self).__init__()
 
         data   = get_history(symbol = symbol,
                             start = startDate,
                             end = endDate)
+        if save: data.to_csv(data_dir + symbol + '.csv')
+        data = data.sample(frac=1).reset_index(drop=True)
 
         if mode   == 'train': self.data = data[:int(len(data)*train_per)]
         elif mode == 'valid': self.data = data[int(len(data)*train_per):int(len(data)*(train_per + valid_per))]
@@ -38,7 +40,7 @@ class DatasetGenerator(object):
 
         # details: [Symbol, Series, Prev Close, Open, High, Low, Last, Close, VWAP, \
         #                       Volume, Turnover, Trades, Deliverable Volume, %Deliverble]
-        
+
         self.data = data.as_matrix()
         
     
