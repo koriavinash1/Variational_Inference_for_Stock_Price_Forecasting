@@ -38,6 +38,7 @@ class DatasetGenerator(object):
 
         # details: [Symbol, Series, Prev Close, Open, High, Low, Last, Close, VWAP, \
         #                       Volume, Turnover, Trades, Deliverable Volume, %Deliverble]
+        
         self.data = data.as_matrix()
         
     

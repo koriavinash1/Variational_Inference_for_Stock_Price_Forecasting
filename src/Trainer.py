@@ -20,6 +20,8 @@ from pyro.optim import Adam
 from Models import *
 from DatasetGenerator import *
 
+from config import *
+
 
 #--------------------------------------------------------------------------------
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -99,7 +101,7 @@ class Trainer ():
                 archs.append(nnArchitecture['name'])
                 losses.append(lossVal)
 
-                model_name = '../pyro/model-m-best_loss.pth.tar'
+                model_name = save_dir + model_scope + '.pth.tar'
 
                 states = {'epochID': epochID + 1,
                             'arch': nnArchitecture['name'],
@@ -117,7 +119,7 @@ class Trainer ():
         sub['archs'] = archs
         sub['loss'] = losses
 
-        sub.to_csv('../pyro/' + nnArchitecture['name'] + '.csv', index=True)
+        sub.to_csv(save_dir + nnArchitecture['name'] + '.csv', index=True)
 
     #--------------------------------------------------------------------------------
     def epochTrain (self, model, dataLoader, optimizer, scheduler, epochMax, classCount, loss, trBatchSize):
